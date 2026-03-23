@@ -11,5 +11,5 @@ target_include_directories(ar PRIVATE ${OpenCV_INCLUDE_DIRS} include)
 target_link_libraries(ar PRIVATE ${OpenCV_LIBS})
 
 add_executable(board src/generate_board.cpp)
-target_include_directories(board PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_include_directories(board PRIVATE ${OpenCV_INCLUDE_DIRS} include)
 target_link_libraries(board PRIVATE ${OpenCV_LIBS})

@@ -97,3 +97,18 @@ std::vector<cv::Vec3f> TargetDetector::computePointSet() const
 
     return pointSet;
 }
+
+cv::Size TargetDetector::getGridSize() const
+{
+    return cv::Size(cols, rows);
+}
+
+float TargetDetector::getMarkerLength() const
+{
+    return markerLength;
+}
+
+float TargetDetector::getMarkerSep() const
+{
+    return markerSeparation;
+}

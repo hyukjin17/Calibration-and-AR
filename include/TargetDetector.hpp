@@ -26,6 +26,11 @@ public:
     // Converts the 2D image coordinates to the 3D world coordinates for the detected corners
     std::vector<cv::Vec3f> computePointSet() const;
 
+    // Getters for the marker size and grid size
+    cv::Size getGridSize() const;
+    float getMarkerLength() const;
+    float getMarkerSep() const;
+
 private:
     cv::aruco::Dictionary dictionary;
     cv::aruco::DetectorParameters detectorParams;
