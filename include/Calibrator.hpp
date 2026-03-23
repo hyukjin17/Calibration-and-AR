@@ -9,15 +9,18 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/objdetect/aruco_detector.hpp>
 
-class Calibrator {
+class Calibrator
+{
 public:
     // Constructor
     Calibrator();
 
     // Getter functions
-    std::vector<std::vector<cv::Vec3f>> getPointList() const;
-    std::vector<std::vector<cv::Point2f>> getCornerList() const;
-    int getNumCalFrames() const;
+    std::vector<std::vector<cv::Vec3f>> getPointList() const { return pointList; }
+    std::vector<std::vector<cv::Point2f>> getCornerList() const { return cornerList; }
+    int getNumCalFrames() const { return numCalFrames; }
+    cv::Mat getCameraMatrix() const { return cameraMatrix; }
+    cv::Mat getDistCoef() const { return distCoef; }
 
     // Populates the list with all points identified in calibration images
     void addCornersPoints(const std::vector<cv::Point2f> &cornerSet, const std::vector<cv::Vec3f> &pointSet);
@@ -28,11 +31,13 @@ public:
     // Load all points from calibration images in the output folder into memory
     void loadExistingCalImages(std::string calImgFolder, int &savedCount);
     // Save the calibration parameters to a .yml file
-    void saveCalibration(const std::string& filename);
+    void saveCalibration(const std::string &filename1, const std::string &filename2);
+    // Load calibration parameters from a file
+    void loadCalibration(const std::string &filename);
 
 private:
-	std::vector<std::vector<cv::Vec3f>> pointList;
-	std::vector<std::vector<cv::Point2f>> cornerList;
+    std::vector<std::vector<cv::Vec3f>> pointList;
+    std::vector<std::vector<cv::Point2f>> cornerList;
     int numCalFrames = 0;
 
     // Calibration parameters

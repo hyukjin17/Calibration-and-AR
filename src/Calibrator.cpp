@@ -16,22 +16,6 @@ Calibrator::Calibrator()
     distCoef = cv::Mat::zeros(8, 1, CV_64FC1);
 }
 
-// Getter functions
-std::vector<std::vector<cv::Vec3f>> Calibrator::getPointList() const
-{
-    return pointList;
-}
-
-std::vector<std::vector<cv::Point2f>> Calibrator::getCornerList() const
-{
-    return cornerList;
-}
-
-int Calibrator::getNumCalFrames() const
-{
-    return numCalFrames;
-}
-
 // Sets the image size using the given dimensions
 void Calibrator::setImgSize(int cols, int rows)
 {
@@ -120,13 +104,13 @@ void Calibrator::loadExistingCalImages(std::string calImgFolder, int &savedCount
     }
 }
 
-void Calibrator::saveCalibration(const std::string &filename)
+void Calibrator::saveCalibration(const std::string &filename1, const std::string& filename2)
 {
-    // Open a file in WRITE mode
-    cv::FileStorage fs(filename, cv::FileStorage::WRITE);
+    // Open a file in WRITE mode for calibration parameters
+    cv::FileStorage fs(filename1, cv::FileStorage::WRITE);
     
     if (!fs.isOpened()) {
-        std::cerr << "Failed to open file: " << filename << std::endl;
+        std::cerr << "Failed to open file: " << filename1 << std::endl;
         return;
     }
 
@@ -134,7 +118,25 @@ void Calibrator::saveCalibration(const std::string &filename)
     fs << "cameraMatrix" << cameraMatrix;
     fs << "distCoeffs" << distCoef;
     fs << "reprojectionError" << reprojError;
-    
     fs.release();
-    std::cout << "Calibration saved to: " << filename << std::endl;
+
+    // Open another file in WRITE mode for camera parameters
+    cv::FileStorage fs2(filename2, cv::FileStorage::WRITE);
+    
+    if (!fs2.isOpened()) {
+        std::cerr << "Failed to open file: " << filename2 << std::endl;
+        return;
+    }
+
+    fs2 << "rvecs" << rvecs;
+    fs2 << "tvecs" << tvecs;
+    fs2.release();
+
+    std::cout << "Calibration saved to: " << filename1 << std::endl;
+    std::cout << "Camera position and rotation saved to: " << filename2 << std::endl;
+}
+
+void Calibrator::loadCalibration(const std::string &filename)
+{
+
 }

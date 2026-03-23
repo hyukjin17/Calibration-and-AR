@@ -18,8 +18,8 @@ public:
     bool processFrame(cv::Mat& frame);
 
     // Getters for the data found in the most recent frame
-    std::vector<std::vector<cv::Point2f>> getCornerSet() const;
-    std::vector<int> getMarkerIDs() const;
+    std::vector<std::vector<cv::Point2f>> getCornerSet() const { return cornerSet; }
+    std::vector<int> getMarkerIDs() const { return markerIDs; }
 
     // Converts the corners into a vector of 3D world point
     std::vector<cv::Point2f> getFlattenedCorners() const;

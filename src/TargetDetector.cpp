@@ -40,18 +40,6 @@ bool TargetDetector::processFrame(cv::Mat &frame)
     return false;
 }
 
-// Getter for the current ArUco marker corner set
-std::vector<std::vector<cv::Point2f>> TargetDetector::getCornerSet() const
-{
-    return cornerSet;
-}
-
-// Getter for the current ArUco marker IDs
-std::vector<int> TargetDetector::getMarkerIDs() const
-{
-    return markerIDs;
-}
-
 // Flattens the 2D corner set into a vector
 std::vector<cv::Point2f> TargetDetector::getFlattenedCorners() const
 {
