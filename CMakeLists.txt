@@ -6,7 +6,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(OpenCV REQUIRED)
 
-add_executable(ar src/TargetDetector.cpp src/Calibrator.cpp src/main.cpp)
+add_executable(ar src/TargetDetector.cpp src/Calibrator.cpp src/Renderer.cpp src/AppController.cpp src/main.cpp)
 target_include_directories(ar PRIVATE ${OpenCV_INCLUDE_DIRS} include)
 target_link_libraries(ar PRIVATE ${OpenCV_LIBS})
 
