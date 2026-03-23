@@ -52,6 +52,9 @@ void Calibrator::addCornersPoints(const std::vector<cv::Point2f> &cornerSet, con
     numCalFrames++;
 }
 
+// Calibrate the camera matrix and distortion coefficients
+// Print out the initial values and after calibration values
+// Also prints out the reprojection error
 void Calibrator::calibrate(int cols, int rows)
 {
     if (cornerList.size() < 5)
@@ -104,6 +107,7 @@ void Calibrator::loadExistingCalImages(std::string calImgFolder, int &savedCount
     }
 }
 
+// Save the calibration parameters and camera position estimation to .yml files
 void Calibrator::saveCalibration(const std::string &filename1, const std::string& filename2)
 {
     // Open a file in WRITE mode for calibration parameters
@@ -136,7 +140,19 @@ void Calibrator::saveCalibration(const std::string &filename1, const std::string
     std::cout << "Camera position and rotation saved to: " << filename2 << std::endl;
 }
 
-void Calibrator::loadCalibration(const std::string &filename)
+// Load the calibration information from a .yml file
+bool Calibrator::loadCalibration(const std::string &filename)
 {
+    cv::FileStorage fs(filename, cv::FileStorage::READ);
+    if (!fs.isOpened()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return false;
+    }
 
+    fs["cameraMatrix"] >> cameraMatrix;
+    fs["distCoeffs"] >> distCoef;
+    fs.release();
+    
+    std::cout << "Successfully loaded intrinsic parameters from " << filename << std::endl;
+    return true;
 }

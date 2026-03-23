@@ -30,10 +30,10 @@ public:
     void clear();
     // Load all points from calibration images in the output folder into memory
     void loadExistingCalImages(std::string calImgFolder, int &savedCount);
-    // Save the calibration parameters to a .yml file
+    // Save the calibration parameters and camera position estimation to .yml files
     void saveCalibration(const std::string &filename1, const std::string &filename2);
     // Load calibration parameters from a file
-    void loadCalibration(const std::string &filename);
+    bool loadCalibration(const std::string &filename);
 
 private:
     std::vector<std::vector<cv::Vec3f>> pointList;
