@@ -26,11 +26,6 @@ public:
     // Converts the 2D image coordinates to the 3D world coordinates for the detected corners
     std::vector<cv::Vec3f> computePointSet() const;
 
-    // Getters for the marker size and grid size
-    cv::Size getGridSize() const;
-    float getMarkerLength() const;
-    float getMarkerSep() const;
-
 private:
     cv::aruco::Dictionary dictionary;
     cv::aruco::DetectorParameters detectorParams;
@@ -40,10 +35,4 @@ private:
     std::vector<int> markerIDs;
     std::vector<std::vector<cv::Point2f>> cornerSet;
     std::vector<std::vector<cv::Point2f>> rejectedCandidates;
-
-    // Physical size of the printed marker and separation as a unit of length
-    float markerLength = 1.0f;
-    float markerSeparation = 0.2f;
-    int cols = 9;
-    int rows = 6;
 };

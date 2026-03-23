@@ -7,6 +7,7 @@
  */
 
 #include "TargetDetector.hpp"
+#include "config.hpp"
 
 // Constructor
 TargetDetector::TargetDetector()
@@ -75,40 +76,25 @@ std::vector<cv::Vec3f> TargetDetector::computePointSet() const
     for (int id : markerIDs)
     {
         // ignore any markers outside of the created ArUco grid
-        if (id >= (cols * rows) || id < 0)
+        if (id >= (Config::COLS * Config::ROWS) || id < 0)
         {
             continue;
         }
 
         // find the marker position on the grid using the ID
-        int col = id % cols;
-        int row = id / cols;
+        int col = id % Config::COLS;
+        int row = id / Config::ROWS;
 
         // find the offset from the origin (top left point of the first marker)
-        float startX = col * (markerLength + markerSeparation);
-        float startY = row * (markerLength + markerSeparation);
+        float startX = col * (Config::MARKER_LENGTH + Config::MARKER_SEPARATION);
+        float startY = row * (Config::MARKER_LENGTH + Config::MARKER_SEPARATION);
 
         // define 4 corners based on the offset (in the right order)
-        pointSet.push_back(cv::Vec3f(startX, startY, 0.0f));                               // Top left
-        pointSet.push_back(cv::Vec3f(startX + markerLength, startY, 0.0f));                // Top right
-        pointSet.push_back(cv::Vec3f(startX + markerLength, startY + markerLength, 0.0f)); // Bottom right
-        pointSet.push_back(cv::Vec3f(startX, startY + markerLength, 0.0f));                // Bottom left
+        pointSet.push_back(cv::Vec3f(startX, startY, 0.0f));                                                 // Top left
+        pointSet.push_back(cv::Vec3f(startX + Config::MARKER_LENGTH, startY, 0.0f));                         // Top right
+        pointSet.push_back(cv::Vec3f(startX + Config::MARKER_LENGTH, startY + Config::MARKER_LENGTH, 0.0f)); // Bottom right
+        pointSet.push_back(cv::Vec3f(startX, startY + Config::MARKER_LENGTH, 0.0f));                         // Bottom left
     }
 
     return pointSet;
-}
-
-cv::Size TargetDetector::getGridSize() const
-{
-    return cv::Size(cols, rows);
-}
-
-float TargetDetector::getMarkerLength() const
-{
-    return markerLength;
-}
-
-float TargetDetector::getMarkerSep() const
-{
-    return markerSeparation;
 }
