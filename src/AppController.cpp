@@ -12,10 +12,14 @@ AppController::AppController() {}
 
 // Handles user input (saving calibration images, calibrating camera, etc.)
 // Returns true if the user presses 'q' to quit
-bool AppController::handleInput(char key, cv::Mat &src, cv::Mat &dst, Calibrator &cal, TargetDetector &td, bool targetDetected)
+bool AppController::handleInput(char key, cv::Mat &src, cv::Mat &dst, Calibrator &cal,
+                                TargetDetector &td, bool targetDetected)
 {
     if (key == 'q')
+    {
+        std::cout << "Quitting program..." << std::endl;
         return true;
+    }
     else if (key == 's')
     {
         if (targetDetected)
@@ -57,6 +61,24 @@ bool AppController::handleInput(char key, cv::Mat &src, cv::Mat &dst, Calibrator
         savedCount = 1; // Reset the naming counter
 
         std::cout << "All calibration images deleted" << std::endl;
+    }
+    else if (key == 'v')
+    {
+        // toggle crystal visibility
+        showCrystal = !showCrystal; 
+        std::cout << "Crystal Visibility: " << (showCrystal ? "ON" : "OFF") << std::endl;
+    }
+    else if (key == 'a') 
+    {
+        // toggle axes visibility
+        showAxes = !showAxes; 
+        std::cout << "Axes Visibility: " << (showAxes ? "ON" : "OFF") << std::endl;
+    }
+    else if (key == 'r')
+    {
+        // toggle imported virtual object visibility
+        showObject = !showObject;
+        std::cout << "Object Visibility: " << (showObject ? "ON" : "OFF") << std::endl;
     }
 
     return false;
