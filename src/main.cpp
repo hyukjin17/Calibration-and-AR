@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
         else if (key == 'c')
         {
             cal.calibrate(dst.cols, dst.rows);
-            cal.saveCalibration(Config::CALIBRATION_FILE);
+            cal.saveCalibration(Config::CALIBRATION_FILE, Config::CAMERA_POSITION_FILE);
         }
         else if (key == 'd') 
         {
