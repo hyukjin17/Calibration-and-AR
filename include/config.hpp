@@ -18,5 +18,5 @@ namespace Config {
     // File paths
     inline const std::string CAL_IMG_FOLDER = "data/calibration_frames";
     inline const std::string VIS_IMG_FOLDER = "data/bounding_box_vis";
-    inline const std::string CALIBRATION_FILE = "calibration_params.yml";
+    inline const std::string CALIBRATION_FILE = "data/calibration_params.yml";
 }
