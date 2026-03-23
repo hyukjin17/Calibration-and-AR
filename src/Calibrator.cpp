@@ -6,7 +6,9 @@
  */
 
 #include <iostream>
+#include <filesystem>
 #include "Calibrator.hpp"
+#include "TargetDetector.hpp"
 
 // Constructor
 Calibrator::Calibrator()
@@ -34,6 +36,14 @@ int Calibrator::getNumCalFrames() const
 void Calibrator::setImgSize(int cols, int rows)
 {
     imgSize = cv::Size(cols, rows);
+}
+
+// Clear variables
+void Calibrator::clear()
+{
+    pointList.clear();
+    cornerList.clear();
+    numCalFrames = 0;
 }
 
 /**
@@ -69,11 +79,62 @@ void Calibrator::calibrate(int cols, int rows)
     setImgSize(cols, rows);
     setCameraMatrix(cols, rows);
 
+    // Initial calibration variables
     std::cout << "Camera Matrix: " << std::endl << cameraMatrix << std::endl;
     std::cout << "Distortion Coefficients: " << std::endl << distCoef << std::endl;
-    double reprojError = cv::calibrateCamera(pointList, cornerList, imgSize, cameraMatrix, distCoef, rvecs, tvecs, flags);
+
+    reprojError = cv::calibrateCamera(pointList, cornerList, imgSize, cameraMatrix, distCoef, rvecs, tvecs, flags);
+    // Calibration variables after calibration
     std::cout << "Camera Matrix: " << std::endl << cameraMatrix << std::endl;
     std::cout << "Distortion Coefficients: " << std::endl << distCoef << std::endl;
     std::cout << "Reprojection Error: " << reprojError << std::endl;
 
+}
+
+// Load all calibration points from calibration images in the output folder into memory
+void Calibrator::loadExistingCalImages(std::string calImgFolder, int &savedCount)
+{
+    TargetDetector td;
+
+    if (std::filesystem::exists(calImgFolder))
+    {
+        std::cout << "Scanning for existing calibration images..." << std::endl;
+        for (const auto& entry : std::filesystem::directory_iterator(calImgFolder))
+        {
+            // Only process actual files (skip sub-folders)
+            if (entry.is_regular_file())
+            {
+                cv::Mat img = cv::imread(entry.path().string());
+                if (!img.empty())
+                {
+                    // If markers are found, add them to the calibrator
+                    if (td.processFrame(img))
+                    {
+                        addCornersPoints(td.getFlattenedCorners(), td.computePointSet());
+                        savedCount++; 
+                    }
+                }
+            }
+        }
+        std::cout << "Loaded " << getNumCalFrames() << " previously saved frames." << std::endl;
+    }
+}
+
+void Calibrator::saveCalibration(const std::string &filename)
+{
+    // Open a file in WRITE mode
+    cv::FileStorage fs(filename, cv::FileStorage::WRITE);
+    
+    if (!fs.isOpened()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return;
+    }
+
+    // Write the variables into the file
+    fs << "cameraMatrix" << cameraMatrix;
+    fs << "distCoeffs" << distCoef;
+    fs << "reprojectionError" << reprojError;
+    
+    fs.release();
+    std::cout << "Calibration saved to: " << filename << std::endl;
 }

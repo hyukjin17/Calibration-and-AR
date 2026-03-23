@@ -23,6 +23,12 @@ public:
     void addCornersPoints(const std::vector<cv::Point2f> &cornerSet, const std::vector<cv::Vec3f> &pointSet);
     // Calibrate the camera matrix
     void calibrate(int cols, int rows);
+    // Clear variables
+    void clear();
+    // Load all points from calibration images in the output folder into memory
+    void loadExistingCalImages(std::string calImgFolder, int &savedCount);
+    // Save the calibration parameters to a .yml file
+    void saveCalibration(const std::string& filename);
 
 private:
 	std::vector<std::vector<cv::Vec3f>> pointList;
@@ -35,8 +41,9 @@ private:
     cv::Mat cameraMatrix;
     std::vector<cv::Mat> rvecs;
     std::vector<cv::Mat> tvecs;
-    // flags assume square pixels, use the initial camera matrix, and keep all 8 values in the distortion coefficient vector
-    int flags = cv::CALIB_FIX_ASPECT_RATIO | cv::CALIB_USE_INTRINSIC_GUESS | cv::CALIB_RATIONAL_MODEL;
+    double reprojError;
+    // flags assume square pixels
+    int flags = cv::CALIB_FIX_ASPECT_RATIO;
 
     // Setter functions
     void setImgSize(int cols, int rows);
