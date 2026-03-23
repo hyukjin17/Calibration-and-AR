@@ -7,7 +7,6 @@
  */
 
 #include "TargetDetector.hpp"
-#include "config.hpp"
 
 // Constructor
 TargetDetector::TargetDetector()

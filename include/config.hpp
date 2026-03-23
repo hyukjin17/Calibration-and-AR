@@ -7,6 +7,7 @@
  */
 
 #pragma once
+#include <string>
 
 namespace Config {
     // Physical ArUco Board Settings
@@ -14,6 +15,7 @@ namespace Config {
     inline const float MARKER_SEPARATION = 0.2f; 
     inline const int COLS = 9;
     inline const int ROWS = 6;
+    inline const float AXIS_LENGTH = 2.0f;
 
     // File paths
     inline const std::string CAL_IMG_FOLDER = "data/calibration_frames";
