@@ -5,10 +5,8 @@
  * Using the 3D points defined by the TargetDetector, calibrates the camera
  */
 
-#include <iostream>
-#include <filesystem>
+
 #include "Calibrator.hpp"
-#include "TargetDetector.hpp"
 
 // Constructor
 Calibrator::Calibrator()
@@ -79,9 +77,11 @@ void Calibrator::calibrate(int cols, int rows)
 }
 
 // Load all calibration points from calibration images in the output folder into memory
-void Calibrator::loadExistingCalImages(std::string calImgFolder, int &savedCount)
+// Return number of images loaded
+int Calibrator::loadExistingCalImages(std::string calImgFolder)
 {
     TargetDetector td;
+    int savedCount = 1;
 
     if (std::filesystem::exists(calImgFolder))
     {
@@ -105,6 +105,8 @@ void Calibrator::loadExistingCalImages(std::string calImgFolder, int &savedCount
         }
         std::cout << "Loaded " << getNumCalFrames() << " previously saved frames." << std::endl;
     }
+
+    return savedCount;
 }
 
 // Save the calibration parameters and camera position estimation to .yml files
@@ -125,16 +127,16 @@ void Calibrator::saveCalibration(const std::string &filename1, const std::string
     fs.release();
 
     // Open another file in WRITE mode for camera parameters
-    cv::FileStorage fs2(filename2, cv::FileStorage::WRITE);
+    fs.open(filename2, cv::FileStorage::WRITE);
     
-    if (!fs2.isOpened()) {
+    if (!fs.isOpened()) {
         std::cerr << "Failed to open file: " << filename2 << std::endl;
         return;
     }
 
-    fs2 << "rvecs" << rvecs;
-    fs2 << "tvecs" << tvecs;
-    fs2.release();
+    fs << "rvecs" << rvecs;
+    fs << "tvecs" << tvecs;
+    fs.release();
 
     std::cout << "Calibration saved to: " << filename1 << std::endl;
     std::cout << "Camera position and rotation saved to: " << filename2 << std::endl;

@@ -8,6 +8,9 @@
 #pragma once
 #include <opencv2/opencv.hpp>
 #include <opencv2/objdetect/aruco_detector.hpp>
+#include <iostream>
+#include <filesystem>
+#include "TargetDetector.hpp"
 
 class Calibrator
 {
@@ -29,7 +32,8 @@ public:
     // Clear variables
     void clear();
     // Load all points from calibration images in the output folder into memory
-    void loadExistingCalImages(std::string calImgFolder, int &savedCount);
+    // Return number of images loaded
+    int loadExistingCalImages(std::string calImgFolder);
     // Save the calibration parameters and camera position estimation to .yml files
     void saveCalibration(const std::string &filename1, const std::string &filename2);
     // Load calibration parameters from a file
