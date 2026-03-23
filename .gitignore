@@ -39,3 +39,14 @@
 
 # debug information files
 *.dwo
+
+# Build dir
+build/
+
+# Data dir
+data/
+
+# Images
+*.png
+*.jpg
+*.jpeg
