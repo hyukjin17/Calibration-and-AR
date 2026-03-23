@@ -56,9 +56,13 @@ std::vector<int> TargetDetector::getMarkerIDs() const
 std::vector<cv::Point2f> TargetDetector::getFlattenedCorners() const
 {
     std::vector<cv::Point2f> flattenedCorners;
-    for (const auto &marker : cornerSet)
+    for (size_t i = 0; i < markerIDs.size(); i++)
     {
-        for (const auto &corner : marker)
+        // ignore any markers outside of the created ArUco grid
+        if (markerIDs[i] >= (Config::COLS * Config::ROWS) || markerIDs[i] < 0)
+            continue;
+
+        for (const auto &corner : cornerSet[i])
         {
             flattenedCorners.push_back(corner);
         }
@@ -77,13 +81,11 @@ std::vector<cv::Vec3f> TargetDetector::computePointSet() const
     {
         // ignore any markers outside of the created ArUco grid
         if (id >= (Config::COLS * Config::ROWS) || id < 0)
-        {
             continue;
-        }
 
         // find the marker position on the grid using the ID
         int col = id % Config::COLS;
-        int row = id / Config::ROWS;
+        int row = id / Config::COLS;
 
         // find the offset from the origin (top left point of the first marker)
         float startX = col * (Config::MARKER_LENGTH + Config::MARKER_SEPARATION);
