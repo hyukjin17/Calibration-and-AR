@@ -16,10 +16,12 @@ namespace Config {
     inline const int COLS = 9;
     inline const int ROWS = 6;
     inline const float AXIS_LENGTH = 2.0f;
+    inline const int LINE_THICKNESS = 3;
 
     // File paths
     inline const std::string CAL_IMG_FOLDER = "data/calibration_frames";
     inline const std::string VIS_IMG_FOLDER = "data/bounding_box_vis";
     inline const std::string CALIBRATION_FILE = "data/calibration_params.yml";
     inline const std::string CAMERA_POSITION_FILE = "data/camera_position_params.yml";
+    inline const std::string VIRTUAL_OBJECT_FILE = "data/ambulance.obj";
 }
