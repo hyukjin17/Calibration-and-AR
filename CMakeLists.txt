@@ -13,3 +13,7 @@ target_link_libraries(ar PRIVATE ${OpenCV_LIBS})
 add_executable(board src/generate_board.cpp src/TargetDetector.cpp)
 target_include_directories(board PRIVATE ${OpenCV_INCLUDE_DIRS} include)
 target_link_libraries(board PRIVATE ${OpenCV_LIBS})
+
+add_executable(test src/feature_test.cpp)
+target_include_directories(test PRIVATE ${OpenCV_INCLUDE_DIRS} include)
+target_link_libraries(test PRIVATE ${OpenCV_LIBS})
