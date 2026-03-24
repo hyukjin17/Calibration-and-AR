@@ -6,7 +6,10 @@
 
 ## Overview
 
-A C++ based Augmented Reality (AR) system built from scratch using OpenCV. This project handles real-time camera calibration, ArUco marker tracking, pose estimation, and features a custom-built software rasterizer capable of parsing and rendering shaded 3D `.obj` models purely on the CPU.
+A C++ based Augmented Reality (AR) system built from scratch using OpenCV. This project handles real-time camera calibration, ArUco marker tracking, pose estimation, and features a custom-built software rasterizer capable of parsing and rendering shaded 3D `.obj` models purely on the CPU. Once the user takes 5 calibration images (ideally more and from various angles), camera calibration can be performed, and the calibration parameters are saved to a .yml file. Additionally, the next time the program is run, the existing images are automatically used to calibrate the camera without user input.
+
+**Link to Demo:**
+https://youtu.be/DYrCAGxlmDM
 
 ## Features
 
@@ -72,6 +75,8 @@ The codebase strictly adheres to the Single Responsibility Principle, decoupling
     ./build/ar
     ```
     Print out the ArUco board or display it on screen for the camera to detect markers (for calibration)
+
+**NOTE** To display custom 3D objects, download an `.obj` file (Kenney.nl has many simple 3D assets) and place into the `/data` directory. Also update the OBJ filename in the `config.hpp` file.
 
 ---
 
