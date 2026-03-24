@@ -22,4 +22,15 @@ public:
     // Draw 3D axes at the origin
     void drawAxes(cv::Mat &dst, const cv::Mat &rvec, const cv::Mat &tvec,
                   const cv::Mat &cameraMatrix, const cv::Mat &distCoef, float axisLength);
+
+    // Load an .obj file and parse it into vertices and surface normals
+    bool loadOBJ(const std::string &path);
+
+    // Draw the imported virtual object
+    void drawObject(cv::Mat &dst, const cv::Mat &rvec, const cv::Mat &tvec,
+                    const cv::Mat &cameraMatrix, const cv::Mat &distCoef);
+
+private:
+    std::vector<cv::Point3f> modelVertices;
+    std::vector<cv::Point3f> modelNormals;
 };
